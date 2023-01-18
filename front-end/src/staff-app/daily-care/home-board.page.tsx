@@ -9,6 +9,9 @@ import { Person } from "shared/models/person"
 import { useApi } from "shared/hooks/use-api"
 import { StudentListTile } from "staff-app/components/student-list-tile/student-list-tile.component"
 import { ActiveRollOverlay, ActiveRollAction } from "staff-app/components/active-roll-overlay/active-roll-overlay.component"
+import { AntSwitch } from "mui-utilities/ant-switch"
+
+import styles from "./home-board.page.module.css"
 
 export const HomeBoardPage: React.FC = () => {
   const [isRollMode, setIsRollMode] = useState(false)
@@ -17,6 +20,8 @@ export const HomeBoardPage: React.FC = () => {
   useEffect(() => {
     void getStudents()
   }, [getStudents])
+
+  console.log(">>>", data)
 
   const onToolbarAction = (action: ToolbarAction) => {
     if (action === "roll") {
@@ -66,9 +71,15 @@ interface ToolbarProps {
 }
 const Toolbar: React.FC<ToolbarProps> = (props) => {
   const { onItemClick } = props
+  const [checkedAsc, setCheckedAsc] = useState(false)
+
   return (
     <S.ToolbarContainer>
-      <div onClick={() => onItemClick("sort")}>First Name</div>
+      <div onClick={() => onItemClick("sort")} className={styles.switchContainer}>
+        <p>asc</p>
+        <AntSwitch checked={checkedAsc} onChange={() => setCheckedAsc(!checkedAsc)} name="checkedC" />
+        <p>desc</p>
+      </div>
       <div>Search</div>
       <S.Button onClick={() => onItemClick("roll")}>Start Roll</S.Button>
     </S.ToolbarContainer>
