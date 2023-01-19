@@ -97,10 +97,19 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
 
   return (
     <S.ToolbarContainer>
-      <div onClick={() => onItemClick("sort")} className={styles.switchContainer}>
-        <p>asc</p>
-        <AntSwitch checked={!sortAsc} onChange={handleSortOrder} name="checkedC" />
-        <p>desc</p>
+      <div className={styles.sortingOptionsContainer}>
+        <div className={styles.optionsContainer}>
+          <p>sort by</p>
+          <select name="sort-by" id="sort-by">
+            <option value="fname">first name</option>
+            <option value="lname">last name</option>
+          </select>
+        </div>
+        <div className={styles.switchContainer}>
+          <p>asc</p>
+          <AntSwitch checked={!sortAsc} onChange={handleSortOrder} name="checkedC" />
+          <p>desc</p>
+        </div>
       </div>
       <div>Search</div>
       <S.Button onClick={() => onItemClick("roll")}>Start Roll</S.Button>

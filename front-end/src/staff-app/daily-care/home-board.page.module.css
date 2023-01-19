@@ -1,6 +1,20 @@
+.sortingOptionsContainer {
+    /* background-color: red; */
+}
+
+.optionsContainer {
+    display: flex;
+    align-items: center;
+}
+
+.optionsContainer p {
+    margin-right: 10px;
+}
+
 .switchContainer {
     display: flex;
     align-items: center;
     width: 100px;
     justify-content: space-between;
+    align-items: center;
 }
