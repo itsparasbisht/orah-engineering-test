@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useCallback } from "react"
 import styled from "styled-components"
 import Button from "@material-ui/core/ButtonBase"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -19,6 +19,7 @@ export const HomeBoardPage: React.FC = () => {
   const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
 
   const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
+  console.log(homeBoardState)
 
   useEffect(() => {
     void getStudents()
@@ -78,13 +79,27 @@ interface ToolbarProps {
 }
 const Toolbar: React.FC<ToolbarProps> = (props) => {
   const { onItemClick } = props
-  const [checkedAsc, setCheckedAsc] = useState(false)
+  const [sortAsc, setSortAsc] = useState(true)
+
+  const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
+
+  const handleSortOrder = () => {
+    setSortAsc(!sortAsc)
+  }
+
+  useEffect(() => {
+    if (sortAsc) {
+      homeBoardDisaptch({ type: "SORT-ORDER", payload: "asc" })
+    } else {
+      homeBoardDisaptch({ type: "SORT-ORDER", payload: "desc" })
+    }
+  }, [sortAsc])
 
   return (
     <S.ToolbarContainer>
       <div onClick={() => onItemClick("sort")} className={styles.switchContainer}>
         <p>asc</p>
-        <AntSwitch checked={checkedAsc} onChange={() => setCheckedAsc(!checkedAsc)} name="checkedC" />
+        <AntSwitch checked={!sortAsc} onChange={handleSortOrder} name="checkedC" />
         <p>desc</p>
       </div>
       <div>Search</div>
