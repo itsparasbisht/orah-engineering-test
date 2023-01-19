@@ -19,6 +19,8 @@ function sortDataByOrder(data, order) {
 const reducer = (state, action) => {
   switch (action.type) {
     case "ADD-DATA":
+      action.payload.students.sort((a, b) => (a.first_name > b.first_name ? true : false))
+
       return {
         ...state,
         data: action.payload,
