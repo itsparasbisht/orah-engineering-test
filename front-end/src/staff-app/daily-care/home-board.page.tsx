@@ -87,6 +87,10 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
     setSortAsc(!sortAsc)
   }
 
+  const handleSortBy = (e) => {
+    homeBoardDisaptch({ type: "SORT-BY", payload: e.target.value })
+  }
+
   useEffect(() => {
     if (sortAsc) {
       homeBoardDisaptch({ type: "SORT-ORDER", payload: "asc" })
@@ -100,7 +104,7 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
       <div className={styles.sortingOptionsContainer}>
         <div className={styles.optionsContainer}>
           <p>sort by</p>
-          <select name="sort-by" id="sort-by">
+          <select name="sort-by" id="sort-by" onChange={(e) => handleSortBy(e)}>
             <option value="fname">first name</option>
             <option value="lname">last name</option>
           </select>
