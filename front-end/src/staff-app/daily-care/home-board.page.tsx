@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import styled from "styled-components"
 import Button from "@material-ui/core/ButtonBase"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -12,16 +12,23 @@ import { ActiveRollOverlay, ActiveRollAction } from "staff-app/components/active
 import { AntSwitch } from "mui-utilities/ant-switch"
 
 import styles from "./home-board.page.module.css"
+import { HomeBoardContext } from "context/home-board/home-board-state"
 
 export const HomeBoardPage: React.FC = () => {
   const [isRollMode, setIsRollMode] = useState(false)
   const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
 
+  const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
+
   useEffect(() => {
     void getStudents()
   }, [getStudents])
 
-  console.log(">>>", data)
+  useEffect(() => {
+    if (data) {
+      homeBoardDisaptch({ type: "ADD-DATA", payload: data })
+    }
+  }, [data])
 
   const onToolbarAction = (action: ToolbarAction) => {
     if (action === "roll") {
