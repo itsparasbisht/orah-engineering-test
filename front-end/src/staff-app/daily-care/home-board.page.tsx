@@ -21,15 +21,36 @@ export const HomeBoardPage: React.FC = () => {
   const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
   console.log(homeBoardState)
 
+  const [students, setStudents] = useState([])
+
   useEffect(() => {
     void getStudents()
   }, [getStudents])
 
   useEffect(() => {
     if (data) {
+      setStudents(data.students)
       homeBoardDisaptch({ type: "ADD-DATA", payload: data })
     }
   }, [data])
+
+  useEffect(() => {
+    if (homeBoardState.data.students) {
+      setStudents(homeBoardState.data.students)
+    }
+  }, [homeBoardState])
+
+  useEffect(() => {
+    if (data?.students) {
+      const students = homeBoardState.data.students
+      const filteredData = students.filter((item) => {
+        const name = `${item.first_name} ${item.last_name}`
+        return name.toLowerCase().includes(homeBoardState.searchQuery.toLowerCase())
+      })
+
+      setStudents(filteredData)
+    }
+  }, [homeBoardState.searchQuery])
 
   const onToolbarAction = (action: ToolbarAction) => {
     if (action === "roll") {
@@ -54,9 +75,9 @@ export const HomeBoardPage: React.FC = () => {
           </CenteredContainer>
         )}
 
-        {loadState === "loaded" && data?.students && (
+        {loadState === "loaded" && students.length > 0 && (
           <>
-            {data.students.map((s) => (
+            {students.map((s) => (
               <StudentListTile key={s.id} isRollMode={isRollMode} student={s} />
             ))}
           </>
@@ -80,6 +101,7 @@ interface ToolbarProps {
 const Toolbar: React.FC<ToolbarProps> = (props) => {
   const { onItemClick } = props
   const [sortAsc, setSortAsc] = useState(true)
+  const [searchQuery, setSearchQuery] = useState("")
 
   const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
 
@@ -99,12 +121,17 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
     }
   }, [sortAsc])
 
+  const handleSearchQuery = (e) => {
+    setSearchQuery(e.target.value)
+    homeBoardDisaptch({ type: "SEARCH-QUERY", payload: e.target.value })
+  }
+
   return (
     <S.ToolbarContainer>
       <div className={styles.sortingOptionsContainer}>
         <div className={styles.optionsContainer}>
           <p>sort by</p>
-          <select name="sort-by" id="sort-by" onChange={(e) => handleSortBy(e)}>
+          <select name="sort-by" id="sort-by" onChange={handleSortBy}>
             <option value="fname">first name</option>
             <option value="lname">last name</option>
           </select>
@@ -115,7 +142,9 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
           <p>desc</p>
         </div>
       </div>
-      <div>Search</div>
+      <div>
+        <input type="search" name="searchQuery" id="searchQuery" value={searchQuery} onChange={handleSearchQuery} />
+      </div>
       <S.Button onClick={() => onItemClick("roll")}>Start Roll</S.Button>
     </S.ToolbarContainer>
   )

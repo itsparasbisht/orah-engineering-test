@@ -6,9 +6,10 @@ const initialState = {
   data: [],
   sortBy: "fname",
   sortOrder: "asc",
+  searchQuery: "",
 }
 
-function sortDataByOrder(data, order, sortBy) {
+function sortData(data, order, sortBy) {
   if (order === "desc") {
     if (sortBy === "fname") {
       data.sort((a, b) => (a.first_name > b.first_name ? false : true))
@@ -26,6 +27,15 @@ function sortDataByOrder(data, order, sortBy) {
   }
 }
 
+function queryFilter(data, query) {
+  const filteredData = data.filter((item) => {
+    const name = `${item.first_name} ${item.last_name}`
+    return name.toLowerCase().includes(query.toLowerCase())
+  })
+
+  return filteredData
+}
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "ADD-DATA":
@@ -38,7 +48,7 @@ const reducer = (state, action) => {
     case "SORT-ORDER":
       if (state.data.students) {
         const data = state.data.students
-        sortDataByOrder(data, action.payload, state.sortBy)
+        sortData(data, action.payload, state.sortBy)
       }
 
       return {
@@ -48,12 +58,25 @@ const reducer = (state, action) => {
     case "SORT-BY":
       if (state.data.students) {
         const data = state.data.students
-        sortDataByOrder(data, state.sortOrder, action.payload)
+        sortData(data, state.sortOrder, action.payload)
       }
 
       return {
         ...state,
         sortBy: action.payload,
+      }
+
+    case "SEARCH-QUERY":
+      // let filteredData = []
+      // if (state.data.students) {
+      //   const data = state.data.students
+      //   filteredData = queryFilter(data, action.payload)
+      //   state.data.students = filteredData
+      // }
+
+      return {
+        ...state,
+        searchQuery: action.payload,
       }
     default:
       return state
