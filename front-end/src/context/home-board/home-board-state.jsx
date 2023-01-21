@@ -27,19 +27,10 @@ function sortData(data, order, sortBy) {
   }
 }
 
-function queryFilter(data, query) {
-  const filteredData = data.filter((item) => {
-    const name = `${item.first_name} ${item.last_name}`
-    return name.toLowerCase().includes(query.toLowerCase())
-  })
-
-  return filteredData
-}
-
 const reducer = (state, action) => {
   switch (action.type) {
     case "ADD-DATA":
-      action.payload.students.sort((a, b) => (a.first_name > b.first_name ? true : false))
+      // action.payload.students.sort((a, b) => (a.first_name > b.first_name ? true : false))
 
       return {
         ...state,
@@ -67,13 +58,6 @@ const reducer = (state, action) => {
       }
 
     case "SEARCH-QUERY":
-      // let filteredData = []
-      // if (state.data.students) {
-      //   const data = state.data.students
-      //   filteredData = queryFilter(data, action.payload)
-      //   state.data.students = filteredData
-      // }
-
       return {
         ...state,
         searchQuery: action.payload,

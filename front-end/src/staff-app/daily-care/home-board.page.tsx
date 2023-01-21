@@ -13,13 +13,16 @@ import { AntSwitch } from "mui-utilities/ant-switch"
 
 import styles from "./home-board.page.module.css"
 import { HomeBoardContext } from "context/home-board/home-board-state"
+import { RollContext } from "context/roll-state/roll-state"
 
 export const HomeBoardPage: React.FC = () => {
   const [isRollMode, setIsRollMode] = useState(false)
   const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
 
   const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
+  const [rollState, rollDisaptch] = useContext(RollContext)
   console.log(homeBoardState)
+  console.log(rollState)
 
   const [students, setStudents] = useState([])
 
@@ -31,6 +34,14 @@ export const HomeBoardPage: React.FC = () => {
     if (data) {
       setStudents(data.students)
       homeBoardDisaptch({ type: "ADD-DATA", payload: data })
+
+      const rollData = data.students.map((student) => {
+        return {
+          id: student.id,
+          status: "nil",
+        }
+      })
+      rollDisaptch({ type: "ADD-DATA", payload: rollData })
     }
   }, [data])
 
