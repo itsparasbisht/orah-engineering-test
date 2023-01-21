@@ -23,6 +23,7 @@ const reducer = (state, action) => {
       return {
         ...state,
         data: action.payload,
+        total: action.payload.length,
       }
     case "UPDATE":
       const id = action.payload.id
@@ -36,6 +37,14 @@ const reducer = (state, action) => {
       }
       return {
         ...state,
+      }
+
+    case "TRUNCATE":
+      return {
+        ...state,
+        present: 0,
+        late: 0,
+        absent: 0,
       }
     default:
       return state

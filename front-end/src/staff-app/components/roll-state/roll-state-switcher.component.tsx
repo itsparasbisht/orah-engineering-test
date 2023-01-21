@@ -22,7 +22,9 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
 
   const onClick = () => {
     const next = nextState()
+
     rollContextDisaptch({ type: "UPDATE", payload: { id: student.id, status: next } })
+
     setRollState(next)
     if (onStateChange) {
       onStateChange(next)

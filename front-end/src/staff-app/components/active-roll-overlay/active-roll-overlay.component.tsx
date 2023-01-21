@@ -13,12 +13,9 @@ interface Props {
 
 export const ActiveRollOverlay: React.FC<Props> = (props) => {
   const { isActive, onItemClick } = props
-
   const [rollContextState, rollContextDisaptch] = useContext(RollContext)
 
-  useEffect(() => {
-    console.log(rollContextState)
-  }, [rollContextState])
+  console.log(rollContextState)
 
   return (
     <S.Overlay isActive={isActive}>
@@ -34,7 +31,13 @@ export const ActiveRollOverlay: React.FC<Props> = (props) => {
             ]}
           />
           <div style={{ marginTop: Spacing.u6 }}>
-            <Button color="inherit" onClick={() => onItemClick("exit")}>
+            <Button
+              color="inherit"
+              onClick={() => {
+                rollContextDisaptch({ type: "TRUNCATE" })
+                onItemClick("exit")
+              }}
+            >
               Exit
             </Button>
             <Button color="inherit" style={{ marginLeft: Spacing.u2 }} onClick={() => onItemClick("exit")}>

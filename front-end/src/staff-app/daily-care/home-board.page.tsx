@@ -20,7 +20,6 @@ export const HomeBoardPage: React.FC = () => {
   const [getStudents, data, loadState] = useApi<{ students: Person[] }>({ url: "get-homeboard-students" })
 
   const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
-  const [rollState, rollDisaptch] = useContext(RollContext)
 
   const [students, setStudents] = useState([])
 
@@ -32,14 +31,6 @@ export const HomeBoardPage: React.FC = () => {
     if (data) {
       setStudents(data.students)
       homeBoardDisaptch({ type: "ADD-DATA", payload: data })
-
-      const rollData = data.students.map((student) => {
-        return {
-          id: student.id,
-          status: "nil",
-        }
-      })
-      rollDisaptch({ type: "ADD-DATA", payload: rollData })
     }
   }, [data])
 
@@ -113,6 +104,7 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
   const [searchQuery, setSearchQuery] = useState("")
 
   const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
+  const [rollState, rollDisaptch] = useContext(RollContext)
 
   const handleSortOrder = () => {
     setSortAsc(!sortAsc)
@@ -154,7 +146,20 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
       <div>
         <input type="search" name="searchQuery" id="searchQuery" value={searchQuery} onChange={handleSearchQuery} />
       </div>
-      <S.Button onClick={() => onItemClick("roll")}>Start Roll</S.Button>
+      <S.Button
+        onClick={() => {
+          const rollData = homeBoardState.data.students.map((student) => {
+            return {
+              id: student.id,
+              status: "nil",
+            }
+          })
+          rollDisaptch({ type: "ADD-DATA", payload: rollData })
+          onItemClick("roll")
+        }}
+      >
+        Start Roll
+      </S.Button>
     </S.ToolbarContainer>
   )
 }
