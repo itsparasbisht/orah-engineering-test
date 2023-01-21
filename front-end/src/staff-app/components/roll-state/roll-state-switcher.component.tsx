@@ -13,7 +13,7 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
 
   const [rollContextState, rollContextDisaptch] = useContext(RollContext)
 
-  console.log(student)
+  console.log(rollContextState)
 
   const nextState = () => {
     const states: RolllStateType[] = ["present", "late", "absent"]
