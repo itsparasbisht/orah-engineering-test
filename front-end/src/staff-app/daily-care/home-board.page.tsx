@@ -21,8 +21,6 @@ export const HomeBoardPage: React.FC = () => {
 
   const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
   const [rollState, rollDisaptch] = useContext(RollContext)
-  console.log(homeBoardState)
-  console.log(rollState)
 
   const [students, setStudents] = useState([])
 

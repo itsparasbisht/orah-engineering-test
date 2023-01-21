@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import styled from "styled-components"
 import Button from "@material-ui/core/Button"
 import { BorderRadius, Spacing } from "shared/styles/styles"
@@ -16,6 +16,10 @@ export const ActiveRollOverlay: React.FC<Props> = (props) => {
 
   const [rollContextState, rollContextDisaptch] = useContext(RollContext)
 
+  useEffect(() => {
+    console.log(rollContextState)
+  }, [rollContextState])
+
   return (
     <S.Overlay isActive={isActive}>
       <S.Content>
@@ -23,10 +27,10 @@ export const ActiveRollOverlay: React.FC<Props> = (props) => {
         <div>
           <RollStateList
             stateList={[
-              { type: "all", count: 10 },
-              { type: "present", count: 0 },
-              { type: "late", count: 0 },
-              { type: "absent", count: 0 },
+              { type: "all", count: rollContextState.total },
+              { type: "present", count: rollContextState.present },
+              { type: "late", count: rollContextState.late },
+              { type: "absent", count: rollContextState.absent },
             ]}
           />
           <div style={{ marginTop: Spacing.u6 }}>

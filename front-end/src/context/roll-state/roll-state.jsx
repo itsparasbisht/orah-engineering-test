@@ -34,8 +34,9 @@ const reducer = (state, action) => {
         rollNo.status = status
         updateRollData(state)
       }
-
-      return state
+      return {
+        ...state,
+      }
     default:
       return state
   }
