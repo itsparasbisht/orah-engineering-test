@@ -4,6 +4,8 @@ import Button from "@material-ui/core/Button"
 import { BorderRadius, Spacing } from "shared/styles/styles"
 import { RollStateList } from "staff-app/components/roll-state/roll-state-list.component"
 import { HomeBoardContext } from "context/home-board/home-board-state"
+import { useApi } from "shared/hooks/use-api"
+import { Person } from "shared/models/person"
 
 export type ActiveRollAction = "filter" | "exit"
 interface Props {
@@ -14,6 +16,20 @@ interface Props {
 export const ActiveRollOverlay: React.FC<Props> = (props) => {
   const { isActive, onItemClick } = props
   const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
+  const [callApi, data, loadState, error] = useApi<{ students: Person[] }>({ url: "save-roll" })
+  console.log(callApi, data, loadState, error)
+
+  const saveRoll = () => {
+    const dataToApi = homeBoardState.data.map((student) => {
+      return {
+        student_id: student.id,
+        roll_state: student.status,
+      }
+    })
+    callApi({ student_roll_states: dataToApi }).then((res) => {
+      homeBoardDisaptch({ type: "TRUNCATE-STATUS" })
+    })
+  }
 
   return (
     <S.Overlay isActive={isActive}>
@@ -32,13 +48,20 @@ export const ActiveRollOverlay: React.FC<Props> = (props) => {
             <Button
               color="inherit"
               onClick={() => {
-                homeBoardDisaptch({ type: "TRUNCATE-STATUS" })
+                // homeBoardDisaptch({ type: "TRUNCATE-STATUS" })
                 onItemClick("exit")
               }}
             >
               Exit
             </Button>
-            <Button color="inherit" style={{ marginLeft: Spacing.u2 }} onClick={() => onItemClick("exit")}>
+            <Button
+              color="inherit"
+              style={{ marginLeft: Spacing.u2 }}
+              onClick={() => {
+                saveRoll()
+                onItemClick("exit")
+              }}
+            >
               Complete
             </Button>
           </div>
