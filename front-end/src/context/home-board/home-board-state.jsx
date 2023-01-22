@@ -40,11 +40,16 @@ function updateRollData(state) {
 const reducer = (state, action) => {
   switch (action.type) {
     case "ADD-DATA":
-      // action.payload.students.sort((a, b) => (a.first_name > b.first_name ? true : false))
+      const updateStudentArr = action.payload.map((item) => {
+        return {
+          ...item,
+          status: "unmark",
+        }
+      })
 
       return {
         ...state,
-        data: action.payload,
+        data: updateStudentArr,
         total: action.payload.length,
       }
     case "SORT-ORDER":

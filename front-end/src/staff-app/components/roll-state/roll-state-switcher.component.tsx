@@ -9,8 +9,10 @@ interface Props {
   onStateChange?: (newState: RolllStateType) => void
 }
 export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", size = 40, onStateChange, student }) => {
-  const [rollState, setRollState] = useState(initialState)
+  const [rollState, setRollState] = useState(student.status)
   const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
+
+  console.log(homeBoardState)
 
   const nextState = () => {
     const states: RolllStateType[] = ["present", "late", "absent"]
