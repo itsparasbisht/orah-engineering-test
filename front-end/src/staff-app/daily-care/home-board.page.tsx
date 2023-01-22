@@ -13,7 +13,6 @@ import { AntSwitch } from "mui-utilities/ant-switch"
 
 import styles from "./home-board.page.module.css"
 import { HomeBoardContext } from "context/home-board/home-board-state"
-import { RollContext } from "context/roll-state/roll-state"
 
 export const HomeBoardPage: React.FC = () => {
   const [isRollMode, setIsRollMode] = useState(false)
@@ -30,20 +29,19 @@ export const HomeBoardPage: React.FC = () => {
   useEffect(() => {
     if (data) {
       setStudents(data.students)
-      homeBoardDisaptch({ type: "ADD-DATA", payload: data })
+      homeBoardDisaptch({ type: "ADD-DATA", payload: data.students })
     }
   }, [data])
 
   useEffect(() => {
-    if (homeBoardState.data.students) {
-      setStudents(homeBoardState.data.students)
+    if (homeBoardState.data) {
+      setStudents(homeBoardState.data)
     }
   }, [homeBoardState])
 
   useEffect(() => {
-    if (data?.students) {
-      const students = homeBoardState.data.students
-      const filteredData = students.filter((item) => {
+    if (homeBoardState.data) {
+      const filteredData = homeBoardState.data.filter((item) => {
         const name = `${item.first_name} ${item.last_name}`
         return name.toLowerCase().includes(homeBoardState.searchQuery.toLowerCase())
       })
@@ -104,7 +102,6 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
   const [searchQuery, setSearchQuery] = useState("")
 
   const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
-  const [rollState, rollDisaptch] = useContext(RollContext)
 
   const handleSortOrder = () => {
     setSortAsc(!sortAsc)
@@ -148,13 +145,6 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
       </div>
       <S.Button
         onClick={() => {
-          const rollData = homeBoardState.data.students.map((student) => {
-            return {
-              id: student.id,
-              status: "nil",
-            }
-          })
-          rollDisaptch({ type: "ADD-DATA", payload: rollData })
           onItemClick("roll")
         }}
       >

@@ -3,7 +3,7 @@ import styled from "styled-components"
 import Button from "@material-ui/core/Button"
 import { BorderRadius, Spacing } from "shared/styles/styles"
 import { RollStateList } from "staff-app/components/roll-state/roll-state-list.component"
-import { RollContext } from "context/roll-state/roll-state"
+import { HomeBoardContext } from "context/home-board/home-board-state"
 
 export type ActiveRollAction = "filter" | "exit"
 interface Props {
@@ -13,9 +13,7 @@ interface Props {
 
 export const ActiveRollOverlay: React.FC<Props> = (props) => {
   const { isActive, onItemClick } = props
-  const [rollContextState, rollContextDisaptch] = useContext(RollContext)
-
-  console.log(rollContextState)
+  const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
 
   return (
     <S.Overlay isActive={isActive}>
@@ -24,17 +22,17 @@ export const ActiveRollOverlay: React.FC<Props> = (props) => {
         <div>
           <RollStateList
             stateList={[
-              { type: "all", count: rollContextState.total },
-              { type: "present", count: rollContextState.present },
-              { type: "late", count: rollContextState.late },
-              { type: "absent", count: rollContextState.absent },
+              { type: "all", count: homeBoardState.total },
+              { type: "present", count: homeBoardState.present },
+              { type: "late", count: homeBoardState.late },
+              { type: "absent", count: homeBoardState.absent },
             ]}
           />
           <div style={{ marginTop: Spacing.u6 }}>
             <Button
               color="inherit"
               onClick={() => {
-                rollContextDisaptch({ type: "TRUNCATE" })
+                homeBoardDisaptch({ type: "TRUNCATE-STATUS" })
                 onItemClick("exit")
               }}
             >

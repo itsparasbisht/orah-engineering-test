@@ -5,7 +5,6 @@ import "index.css"
 import StaffApp from "staff-app/app"
 import { GlobalStyle } from "shared/styles/global-style"
 import HomeBoardState from "context/home-board/home-board-state"
-import RollState from "context/roll-state/roll-state"
 
 const Home: React.FC = () => {
   return (
@@ -21,15 +20,13 @@ const Home: React.FC = () => {
 ReactDOM.render(
   <React.StrictMode>
     <HomeBoardState>
-      <RollState>
-        <GlobalStyle />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home>Engineering Test</Home>} />
-            <Route path="staff/*" element={<StaffApp />} />
-          </Routes>
-        </BrowserRouter>
-      </RollState>
+      <GlobalStyle />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home>Engineering Test</Home>} />
+          <Route path="staff/*" element={<StaffApp />} />
+        </Routes>
+      </BrowserRouter>
     </HomeBoardState>
   </React.StrictMode>,
   document.getElementById("root")

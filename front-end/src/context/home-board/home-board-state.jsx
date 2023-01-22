@@ -7,6 +7,10 @@ const initialState = {
   sortBy: "fname",
   sortOrder: "asc",
   searchQuery: "",
+  total: 0,
+  present: null,
+  late: null,
+  absent: null,
 }
 
 function sortData(data, order, sortBy) {
@@ -27,6 +31,12 @@ function sortData(data, order, sortBy) {
   }
 }
 
+function updateRollData(state) {
+  state.present = state.data.filter((roll) => roll.status === "present").length
+  state.late = state.data.filter((roll) => roll.status === "late").length
+  state.absent = state.data.filter((roll) => roll.status === "absent").length
+}
+
 const reducer = (state, action) => {
   switch (action.type) {
     case "ADD-DATA":
@@ -35,10 +45,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         data: action.payload,
+        total: action.payload.length,
       }
     case "SORT-ORDER":
-      if (state.data.students) {
-        const data = state.data.students
+      if (state.data) {
+        const data = state.data
         sortData(data, action.payload, state.sortBy)
       }
 
@@ -47,8 +58,8 @@ const reducer = (state, action) => {
         sortOrder: action.payload,
       }
     case "SORT-BY":
-      if (state.data.students) {
-        const data = state.data.students
+      if (state.data) {
+        const data = state.data
         sortData(data, state.sortOrder, action.payload)
       }
 
@@ -61,6 +72,34 @@ const reducer = (state, action) => {
       return {
         ...state,
         searchQuery: action.payload,
+      }
+    case "UPDATE-STATUS":
+      const id = action.payload.id
+      const status = action.payload.status
+
+      const rollNo = state.data.find((item) => item.id === id)
+
+      if (rollNo) {
+        rollNo.status = status
+        updateRollData(state)
+      }
+      return {
+        ...state,
+      }
+
+    case "TRUNCATE-STATUS":
+      const updatedStudentArr = state.data.map((student) => {
+        return {
+          ...student,
+          status: "unmark",
+        }
+      })
+      return {
+        ...state,
+        data: updatedStudentArr,
+        present: 0,
+        late: 0,
+        absent: 0,
       }
     default:
       return state
