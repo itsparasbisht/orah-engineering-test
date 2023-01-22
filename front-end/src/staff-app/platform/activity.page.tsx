@@ -15,11 +15,17 @@ export const ActivityPage: React.FC = () => {
     callApi()
   }, [])
 
-  // if (data.activity.length === 0) {
-  //   return <h3 className={styles.noActivity}>no activity yet</h3>
-  // }
+  return (
+    <div>
+      {loadState === "loading" && <h3 className={styles.noActivity}>loading...</h3>}
 
-  return <ActivityTabs />
+      {loadState === "error" && <h3 className={styles.noActivity}>error while loading!</h3>}
+
+      {loadState === "loaded" && data?.activity.length === 0 && <h3 className={styles.noActivity}>no activity yet</h3>}
+
+      {loadState === "loaded" && data?.activity.length > 0 && <ActivityTabs activity={data?.activity} />}
+    </div>
+  )
 }
 
 const S = {

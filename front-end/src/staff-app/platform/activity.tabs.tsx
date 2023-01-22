@@ -6,6 +6,7 @@ import Tabs from "@material-ui/core/Tabs"
 import Tab from "@material-ui/core/Tab"
 import Typography from "@material-ui/core/Typography"
 import Box from "@material-ui/core/Box"
+import TabContent from "./activity.tabs.content"
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props
@@ -42,9 +43,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-function ActivityTabs() {
+function ActivityTabs({ activity }) {
   const classes = useStyles()
   const [value, setValue] = useState(0)
+
+  console.log("---", activity)
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -62,20 +65,16 @@ function ActivityTabs() {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
+          {activity.map((item, i) => (
+            <Tab label={new Date(item.date).toLocaleString()} {...a11yProps(i)} />
+          ))}
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        Item One
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
+      {activity.map((item, i) => (
+        <TabPanel value={value} index={i}>
+          <TabContent data={item.entity.student_roll_states} />
+        </TabPanel>
+      ))}
     </div>
   )
 }

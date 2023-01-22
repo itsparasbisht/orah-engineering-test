@@ -1,0 +1,24 @@
+.statusContainer {
+    display: flex;
+    gap: 15px;
+}
+
+.statusRow {
+    display: flex;
+    width: 70px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: rgb(220, 220, 220);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.tickBox {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
