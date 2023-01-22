@@ -5,6 +5,7 @@ import { useApi } from "shared/hooks/use-api"
 import { Person } from "shared/models/person"
 
 import styles from "./activity.page.module.css"
+import ActivityTabs from "./activity.tabs"
 
 export const ActivityPage: React.FC = () => {
   const [callApi, data, loadState, error] = useApi<{ students: Person[] }>({ url: "get-activities" })
@@ -14,11 +15,11 @@ export const ActivityPage: React.FC = () => {
     callApi()
   }, [])
 
-  if (data.activity.length === 0) {
-    return <h3 className={styles.noActivity}>no activity yet</h3>
-  }
+  // if (data.activity.length === 0) {
+  //   return <h3 className={styles.noActivity}>no activity yet</h3>
+  // }
 
-  return <S.Container>Activity Page</S.Container>
+  return <ActivityTabs />
 }
 
 const S = {
