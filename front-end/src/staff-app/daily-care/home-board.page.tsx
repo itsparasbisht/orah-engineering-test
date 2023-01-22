@@ -75,9 +75,13 @@ export const HomeBoardPage: React.FC = () => {
 
         {loadState === "loaded" && students.length > 0 && (
           <>
-            {students.map((s) => (
-              <StudentListTile key={s.id} isRollMode={isRollMode} student={s} />
-            ))}
+            {students.map((s) => {
+              return homeBoardState.show === "all" ? (
+                <StudentListTile key={s.id} isRollMode={isRollMode} student={s} />
+              ) : (
+                s.status === homeBoardState.show && <StudentListTile key={s.id} isRollMode={isRollMode} student={s} />
+              )
+            })}
           </>
         )}
 

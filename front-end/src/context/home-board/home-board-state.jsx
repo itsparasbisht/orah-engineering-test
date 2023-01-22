@@ -11,6 +11,7 @@ const initialState = {
   present: 0,
   late: 0,
   absent: 0,
+  show: "all",
 }
 
 function sortData(data, order, sortBy) {
@@ -105,6 +106,11 @@ const reducer = (state, action) => {
         present: 0,
         late: 0,
         absent: 0,
+      }
+    case "SHOW":
+      return {
+        ...state,
+        show: action.payload.by,
       }
     default:
       return state

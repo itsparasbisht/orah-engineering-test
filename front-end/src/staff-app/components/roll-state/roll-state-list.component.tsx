@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useContext } from "react"
 import styled from "styled-components"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { RollStateIcon } from "staff-app/components/roll-state/roll-state-icon.component"
 import { Spacing, FontWeight } from "shared/styles/styles"
 import { RolllStateType } from "shared/models/roll"
+import { HomeBoardContext } from "context/home-board/home-board-state"
 
 interface Props {
   stateList: StateList[]
@@ -17,13 +18,23 @@ export const RollStateList: React.FC<Props> = ({ stateList, size = 14, onItemCli
     }
   }
 
+  const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
+
   return (
     <S.ListContainer>
       {stateList.map((s, i) => {
         if (s.type === "all") {
           return (
             <S.ListItem key={i}>
-              <FontAwesomeIcon icon="users" size="sm" style={{ cursor: "pointer" }} onClick={() => onClick(s.type)} />
+              <FontAwesomeIcon
+                icon="users"
+                size="sm"
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  homeBoardDisaptch({ type: "SHOW", payload: { by: "all" } })
+                  onClick(s.type)
+                }}
+              />
               <span>{s.count}</span>
             </S.ListItem>
           )
@@ -31,7 +42,14 @@ export const RollStateList: React.FC<Props> = ({ stateList, size = 14, onItemCli
 
         return (
           <S.ListItem key={i}>
-            <RollStateIcon type={s.type} size={size} onClick={() => onClick(s.type)} />
+            <RollStateIcon
+              type={s.type}
+              size={size}
+              onClick={() => {
+                homeBoardDisaptch({ type: "SHOW", payload: { by: s.type } })
+                onClick(s.type)
+              }}
+            />
             <span>{s.count}</span>
           </S.ListItem>
         )
