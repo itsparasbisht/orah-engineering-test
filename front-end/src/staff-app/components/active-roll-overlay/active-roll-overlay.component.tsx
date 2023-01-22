@@ -17,7 +17,7 @@ export const ActiveRollOverlay: React.FC<Props> = (props) => {
   const { isActive, onItemClick } = props
   const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
   const [callApi, data, loadState, error] = useApi<{ students: Person[] }>({ url: "save-roll" })
-  console.log(callApi, data, loadState, error)
+  // console.log(callApi, data, loadState, error)
 
   const saveRoll = () => {
     const dataToApi = homeBoardState.data.map((student) => {
