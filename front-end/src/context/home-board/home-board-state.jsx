@@ -8,9 +8,9 @@ const initialState = {
   sortOrder: "asc",
   searchQuery: "",
   total: 0,
-  present: null,
-  late: null,
-  absent: null,
+  present: 0,
+  late: 0,
+  absent: 0,
 }
 
 function sortData(data, order, sortBy) {
