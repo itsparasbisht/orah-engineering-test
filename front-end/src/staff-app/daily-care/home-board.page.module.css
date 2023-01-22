@@ -1,7 +1,3 @@
-.sortingOptionsContainer {
-    /* background-color: red; */
-}
-
 .optionsContainer {
     display: flex;
     align-items: center;
@@ -17,4 +13,32 @@
     width: 100px;
     justify-content: space-between;
     align-items: center;
+}
+
+.searchInputContainer {
+    background-color: rgb(230, 230, 230);
+    width: 360px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 3px;
+}
+
+.searchInputContainer label {
+    font-size: 15px;
+    color: black;
+    padding-left: 7px;
+}
+
+.searchInputContainer input[type="search"] {
+    width: 300px;
+    padding: 7px 10px;
+    font-size: 15px;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+}
+
+.searchInputContainer input[type="search"]:focus {
+    background-color: #cbcbcb;
 }

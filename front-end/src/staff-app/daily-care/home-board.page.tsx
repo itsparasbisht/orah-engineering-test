@@ -130,7 +130,7 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
 
   return (
     <S.ToolbarContainer>
-      <div className={styles.sortingOptionsContainer}>
+      <div>
         <div className={styles.optionsContainer}>
           <p>sort by</p>
           <select name="sort-by" id="sort-by" onChange={handleSortBy}>
@@ -144,8 +144,9 @@ const Toolbar: React.FC<ToolbarProps> = (props) => {
           <p>desc</p>
         </div>
       </div>
-      <div>
-        <input type="search" name="searchQuery" id="searchQuery" value={searchQuery} onChange={handleSearchQuery} />
+      <div className={styles.searchInputContainer}>
+        <label htmlFor="searchQuery">Search</label>
+        <input type="search" name="searchQuery" id="searchQuery" value={searchQuery} onChange={handleSearchQuery} placeholder="start typing..." />
       </div>
       <S.Button
         onClick={() => {
