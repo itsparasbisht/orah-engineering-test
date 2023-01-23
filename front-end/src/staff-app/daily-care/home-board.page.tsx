@@ -164,6 +164,7 @@ const S = {
     display: flex;
     flex-direction: column;
     width: 50%;
+    min-width: 550px;
     margin: ${Spacing.u4} auto 140px;
   `,
   ToolbarContainer: styled.div`

@@ -9,7 +9,6 @@ import ActivityTabs from "./activity.tabs"
 
 export const ActivityPage: React.FC = () => {
   const [callApi, data, loadState, error] = useApi<{ students: Person[] }>({ url: "get-activities" })
-  console.log(callApi, data, loadState, error)
 
   useEffect(() => {
     callApi()

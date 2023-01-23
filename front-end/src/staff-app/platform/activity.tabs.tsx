@@ -47,7 +47,7 @@ function ActivityTabs({ activity }) {
   const classes = useStyles()
   const [value, setValue] = useState(0)
 
-  console.log("---", activity)
+  const activityArr = activity.sort((a, b) => (a.date > b.date ? -1 : 1))
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -65,12 +65,12 @@ function ActivityTabs({ activity }) {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          {activity.map((item, i) => (
+          {activityArr.map((item, i) => (
             <Tab label={new Date(item.date).toLocaleString()} {...a11yProps(i)} />
           ))}
         </Tabs>
       </AppBar>
-      {activity.map((item, i) => (
+      {activityArr.map((item, i) => (
         <TabPanel value={value} index={i}>
           <TabContent data={item.entity.student_roll_states} />
         </TabPanel>

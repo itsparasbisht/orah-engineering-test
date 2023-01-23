@@ -12,8 +12,6 @@ export const RollStateSwitcher: React.FC<Props> = ({ initialState = "unmark", si
   const [rollState, setRollState] = useState(student.status)
   const [homeBoardState, homeBoardDisaptch] = useContext(HomeBoardContext)
 
-  console.log(homeBoardState)
-
   const nextState = () => {
     const states: RolllStateType[] = ["present", "late", "absent"]
     if (rollState === "unmark" || rollState === "absent") return states[0]

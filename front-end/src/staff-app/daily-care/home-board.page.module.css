@@ -17,7 +17,8 @@
 
 .searchInputContainer {
     background-color: rgb(230, 230, 230);
-    width: 360px;
+    width: 50%;
+    max-width: 360px;
     display: flex;
     align-items: center;
     justify-content: space-between;
