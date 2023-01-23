@@ -66,12 +66,12 @@ function ActivityTabs({ activity }) {
           aria-label="scrollable auto tabs example"
         >
           {activityArr.map((item, i) => (
-            <Tab label={new Date(item.date).toLocaleString()} {...a11yProps(i)} />
+            <Tab key={item.date} label={new Date(item.date).toLocaleString()} {...a11yProps(i)} />
           ))}
         </Tabs>
       </AppBar>
       {activityArr.map((item, i) => (
-        <TabPanel value={value} index={i}>
+        <TabPanel value={value} index={i} key={item.date}>
           <TabContent data={item.entity.student_roll_states} />
         </TabPanel>
       ))}
